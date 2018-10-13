@@ -4,7 +4,7 @@ port: 1
 
 server:
   type: simple
-  applicationContextPath: /academico
+  applicationContextPath: /academicotest
   adminContextPath: /admin
   connector:
     type: http
@@ -23,10 +23,10 @@ logging:
 database:
   # the name of your JDBC driver
   driverClass: org.h2.Driver
-  user: userdb
-  password: passworddb
-  url: jdbc:h2:./academicodb
+  user: sa
+  password: 
+  url: jdbc:h2:mem:academicodbtest
   properties:
     charSet: UTF-8
     hibernate.dialect: org.hibernate.dialect.H2Dialect
-    hibernate.hbm2ddl.auto: update # update create-drop
+    hibernate.hbm2ddl.auto: update

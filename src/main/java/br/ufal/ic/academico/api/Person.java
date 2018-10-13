@@ -1,31 +1,34 @@
 package br.ufal.ic.academico.api;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Willy
- */
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Entity
 @Getter
 @RequiredArgsConstructor
 public class Person {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String name;
-    
-    @Setter private int score;
 
-    public Person(String name) {
-        this.name = name;
+    @Setter
+    protected String firstName, lastName;
+
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    protected void update(String firstName, String lastName) {
+        this.firstName = firstName;
+        if (lastName != null) {
+            this.lastName = lastName;
+        }
     }
 }
