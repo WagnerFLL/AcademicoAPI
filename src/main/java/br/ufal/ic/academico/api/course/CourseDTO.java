@@ -15,8 +15,8 @@ import java.util.List;
 @ToString
 public class CourseDTO {
 
-    Long id;
-    String name;
+    public Long id;
+    public String name;
     List<DisciplineDTO> disciplines;
 
     public CourseDTO(Course entity) {

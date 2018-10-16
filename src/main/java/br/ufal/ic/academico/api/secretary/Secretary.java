@@ -38,7 +38,4 @@ public class Secretary {
         return this.courses.add(course);
     }
 
-    public void deleteCourse(Course c) {
-        this.courses.remove(c);
-    }
 }

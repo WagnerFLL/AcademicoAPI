@@ -54,19 +54,6 @@ public class ProfessorResource {
         return Response.status(404).entity("Este professor não está registrado.").build();
     }
 
-    @PUT
-    @Path("/{id}")
-    @UnitOfWork
-    @Consumes("application/json")
-    public Response update(@PathParam("id") Long id, ProfessorDTO entity) {
-        log.info("UPDATE professor: id={}", id);
-
-        Professor t = professorDAO.get(id);
-        if (t == null) return Response.status(404).entity("Este professor não está registrado.").build();
-        t.update(entity);
-        return Response.ok(new ProfessorDTO(professorDAO.persist(t))).build();
-    }
-
     @POST
     @Path("/{idP}/discipline/{idD}")
     @UnitOfWork

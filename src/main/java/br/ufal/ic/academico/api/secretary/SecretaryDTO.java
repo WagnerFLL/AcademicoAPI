@@ -1,6 +1,7 @@
 package br.ufal.ic.academico.api.secretary;
 
 import br.ufal.ic.academico.api.discipline.Discipline;
+import br.ufal.ic.academico.api.discipline.DisciplineDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -34,28 +35,6 @@ public class SecretaryDTO {
             });
 
             this.disciplines = dtoList;
-        }
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    private class DisciplineDTO {
-
-        Long id;
-        String code, name;
-        Integer credits, requiredCredits;
-        List<String> requiredDisciplines;
-
-        DisciplineDTO(Discipline entity) {
-            this.id = entity.getId();
-            this.code = entity.getCode();
-            this.code = entity.getCode();
-            this.name = entity.getName();
-            this.credits = entity.getCredits();
-            this.requiredCredits = entity.getRequiredCredits();
-            this.requiredDisciplines = entity.getRequiredDisciplines();
         }
     }
 }

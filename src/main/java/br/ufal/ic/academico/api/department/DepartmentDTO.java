@@ -15,9 +15,9 @@ import java.util.List;
 @ToString
 public class DepartmentDTO {
 
-    Long id;
-    String name;
-    List<SecretaryDTO> secretaries = new ArrayList<>();
+    public Long id;
+    public String name;
+    public List<SecretaryDTO> secretaries = new ArrayList<>();
 
     public DepartmentDTO(Department entity) {
         this.id = entity.getId();

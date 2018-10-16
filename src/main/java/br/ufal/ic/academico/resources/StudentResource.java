@@ -10,10 +10,7 @@ import br.ufal.ic.academico.api.student.Student;
 import br.ufal.ic.academico.api.student.StudentDAO;
 import br.ufal.ic.academico.api.student.StudentDTO;
 import io.dropwizard.hibernate.UnitOfWork;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
@@ -32,24 +29,6 @@ public class StudentResource {
     private final CourseDAO courseDAO;
     private final StudentDAO studentDAO;
     private final DisciplineDAO disciplineDAO;
-
-    @Getter
-    @AllArgsConstructor
-    @RequiredArgsConstructor
-    @ToString
-    private class History {
-        Long id;
-        String name;
-        List<DisciplineHT> disciplines;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @RequiredArgsConstructor
-    @ToString
-    private class DisciplineHT {
-        String code, name;
-    }
 
     @GET
     @UnitOfWork
@@ -103,6 +82,10 @@ public class StudentResource {
 
         Student s = studentDAO.get(id);
         if (s == null) return Response.status(404).entity("Este estudante não está matriculado").build();
+
+        disciplineDAO.jubiler(s);
+        s.setCourse(null);
+        studentDAO.persist(s);
         studentDAO.delete(s);
 
         return Response.status(Response.Status.NO_CONTENT).build();
@@ -187,25 +170,6 @@ public class StudentResource {
         s.completeDiscipline(d);
         disciplineDAO.persist(d);
         return Response.ok(new StudentDTO(studentDAO.persist(s))).build();
-    }
-
-    @GET
-    @Path("/history/{id}")
-    @UnitOfWork
-    public Response history(@PathParam("id") Long id) {
-        log.info("MATRICULATE history of student {}", id);
-
-        Student student = studentDAO.get(id);
-        if (student == null) return Response.status(404).entity("Este estudante não está matriculado.").build();
-
-        List<Discipline> disciplines = disciplineDAO.getAllByStudent(student);
-
-        List<DisciplineHT> disciplineProofs = new ArrayList<>();
-        for (Discipline d : disciplines) disciplineProofs.add(new DisciplineHT(d.getCode(), d.getName()));
-
-        return Response.ok(new History(student.getId(), student.getFirstName() +
-                (student.getLastName() != null ? " " + student.getLastName() : ""),
-                disciplineProofs)).build();
     }
 
     private List<StudentDTO> studentListToDTOList(List<Student> list) {

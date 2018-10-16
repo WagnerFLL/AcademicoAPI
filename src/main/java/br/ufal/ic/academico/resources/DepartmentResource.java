@@ -39,6 +39,8 @@ public class DepartmentResource {
     public Response create(DepartmentDTO entity) {
         log.info("CREATE department: {}", entity);
 
+        if (entity.getName() == null) return Response.status(400).entity("Department name is required.").build();
+
         Department d = new Department(entity);
         return Response.ok(new DepartmentDTO(departmentDAO.persist(d))).build();
     }
@@ -53,33 +55,6 @@ public class DepartmentResource {
         if (d == null) return Response.status(404).entity("Departmento não existe.").build();
 
         return Response.ok(new DepartmentDTO(d)).build();
-    }
-
-    @PUT
-    @Path("/{id}")
-    @UnitOfWork
-    @Consumes("application/json")
-    public Response update(@PathParam("id") Long id, DepartmentDTO entity) {
-        log.info("UPDATE department: id={}", id);
-
-        Department d = departmentDAO.get(id);
-        if (d == null) return Response.status(404).entity("Departmento não existe.").build();
-
-        d.update(entity);
-        return Response.ok(new DepartmentDTO(departmentDAO.persist(d))).build();
-    }
-
-    @DELETE
-    @Path("/{id}")
-    @UnitOfWork
-    public Response delete(@PathParam("id") Long id) {
-        log.info("DELETE department: id={}", id);
-
-        Department d = departmentDAO.get(id);
-        if (d == null) return Response.status(404).entity("Departmento não existe.").build();
-
-        departmentDAO.delete(d);
-        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @GET

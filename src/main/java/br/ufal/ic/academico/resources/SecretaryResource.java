@@ -46,25 +46,6 @@ public class SecretaryResource {
         return Response.ok(new SecretaryDTO(s)).build();
     }
 
-    @DELETE
-    @Path("/{id}")
-    @UnitOfWork
-    public Response delete(@PathParam("id") Long id) {
-        log.info("DELETE secretary: id={}", id);
-
-        Secretary s = secretaryDAO.get(id);
-        if (s == null) return Response.status(404).entity("Secretaria não existe.").build();
-
-        Department d = secretaryDAO.getDepartment(s);
-
-        if (s.getType().equals("GRADUATION")) d.setGraduation(null);
-
-        else d.setPostGraduation(null);
-
-        departmentDAO.persist(d);
-        secretaryDAO.delete(s);
-        return Response.noContent().build();
-    }
 
     @GET
     @Path("/{id}/courses")

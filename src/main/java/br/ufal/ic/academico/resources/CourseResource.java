@@ -47,38 +47,6 @@ public class CourseResource {
         return Response.ok(new CourseDTO(c)).build();
     }
 
-    @PUT
-    @Path("/{id}")
-    @UnitOfWork
-    @Consumes("application/json")
-    public Response update(@PathParam("id") Long id, CourseDTO entity) {
-        log.info("UPDATE course {} to {}", id, entity);
-
-        Course c = courseDAO.get(id);
-        if (c == null) return Response.status(404).entity("Este curso não existe.").build();
-
-        c.update(entity);
-        return Response.ok(new CourseDTO(courseDAO.persist(c))).build();
-    }
-
-    @DELETE
-    @Path("/{id}")
-    @UnitOfWork
-    public Response delete(@PathParam("id") Long id) {
-        log.info("DELETE course {}", id);
-
-        Course c = courseDAO.get(id);
-        if (c == null) return Response.status(404).entity("Este curso não existe.").build();
-
-
-        Secretary s = courseDAO.getSecretary(c);
-        s.deleteCourse(c);
-
-        secretaryDAO.persist(s);
-        courseDAO.delete(c);
-        return Response.noContent().build();
-    }
-
     @GET
     @Path("/{id}/disciplines")
     @UnitOfWork
@@ -106,6 +74,9 @@ public class CourseResource {
         Course c = courseDAO.get(id);
         if (c == null) return Response.status(404).entity("Este curso não existe.").build();
 
+        if (entity.getCode() == null || entity.getCode().equals("")) return Response.status(400).entity("Discipline code required.").build();
+
+        if (entity.getName() == null || entity.getName().equals("")) return Response.status(400).entity("Discipline code required.").build();
 
         Discipline d = new Discipline(entity);
         disciplineDAO.persist(d);

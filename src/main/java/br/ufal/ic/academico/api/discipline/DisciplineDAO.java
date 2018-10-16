@@ -81,4 +81,18 @@ public class DisciplineDAO extends ModelDAO<Discipline> {
             }
         }
     }
+
+    public void jubiler(Student student) {
+        List<Discipline> allDisciplines = this.getAll();
+
+        for (Discipline d : allDisciplines) {
+
+            if (d.students.contains(student)) {
+                d.removeStudent(student);
+                this.persist(d);
+            }
+
+        }
+    }
+
 }

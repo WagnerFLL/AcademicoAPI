@@ -35,12 +35,6 @@ public class Course {
         this.disciplines = new ArrayList<>();
     }
 
-    public void update(CourseDTO entity) {
-        if (entity.name != null) {
-            this.name = entity.name;
-        }
-    }
-
     public void addDiscipline(Discipline discipline) {
         assert this.disciplines != null;
         this.disciplines.add(discipline);
